@@ -32,7 +32,7 @@ public class Calculator {
         public static void main(String[] args) {
         Calculator calculator = new Calculator();
         int sum = sum(5);
-        System.out.println(sum );
+        System.out.println(sum);
         int minus = minus(5);
         System.out.println(minus);
         int divide = calculator.divide(5);
