@@ -5,28 +5,23 @@ public class Calculator {
     private static int x = 5;
 
     public static int sum(int y) {
-        y += x;
-        return y;
+        return y + x;
     }
 
     public static int minus(int q) {
-        q -= x;
-        return q;
+        return q - x;
     }
 
     public int divide(int w) {
-        w = w / x;
-        return w;
+        return w / x;
     }
 
     public int multiply(int a) {
-        a = x * a;
-        return a;
+        return x * a;
     }
 
     public int sumAllOperation(int e) {
-        e = Calculator.sum(e) + Calculator.minus(e) + divide(e) + multiply(e);
-        return e;
+        return Calculator.sum(e) + Calculator.minus(e) + divide(e) + multiply(e);
     }
 
         public static void main(String[] args) {
