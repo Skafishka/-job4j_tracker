@@ -15,5 +15,4 @@ public class StartUI extends Item {
         String createdFormat = formatter.format(item.getCreated());
         System.out.println(createdFormat);
     }
-
 }
