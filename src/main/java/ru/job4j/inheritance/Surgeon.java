@@ -1,23 +1,19 @@
 package ru.job4j.inheritance;
 
 public class Surgeon extends Doctor {
-    private String clinic;
-
-    public Surgeon() {
-    }
+    private static String clinic;
 
     public Surgeon(String name, String surname, String education, String birthday, String diagnosis) {
         super(name, surname, education, birthday, diagnosis);
         this.clinic = clinic;
     }
 
-    public String getClinic() {
+    public static String getClinic() {
         return clinic;
     }
 
     public static void main(String[] args) {
-        Surgeon surgeon = new Surgeon();
-        System.out.println(surgeon.getDiagnosisheal());
-        System.out.println(surgeon.getClinic());
+        System.out.println(getDiagnosisheal());
+        System.out.println(getClinic());
     }
 }
