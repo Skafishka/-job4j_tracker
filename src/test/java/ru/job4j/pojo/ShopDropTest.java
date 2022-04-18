@@ -56,4 +56,5 @@ public class ShopDropTest {
         assertThat(rsl[3].getName(), is("Fruit"));
         assertThat(rsl[products.length - 1], is(nullValue()));
     }
+
 }
