@@ -21,7 +21,7 @@ public class Library {
             System.out.println(massive[i].getName() + " - " + massive[i].getCount());
         }
         for (int i = 0; i < massive.length; i++) {
-            if (massive[i].getName() == "Clean code") {
+            if ("Clean code".equals(massive[i].getName())) {
                 System.out.println(massive[i].getName());
             }
         }
