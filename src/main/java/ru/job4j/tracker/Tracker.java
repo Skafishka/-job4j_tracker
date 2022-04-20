@@ -8,12 +8,6 @@ public class Tracker {
     private int ids = 1;
     private int size = 0;
 
-    public Item add(Item item) {
-        item.setId(ids++);
-        items[size++] = item;
-        return item;
-    }
-
     public Item[] findAll() {
         int index = 0;
         for (Item i : items) {
@@ -38,14 +32,33 @@ public class Tracker {
     }
 
     public Item findById(int id) {
-        Item rsl = null;
+        int index = indexOf(id);
+        return index != -1 ? items[index] : null;
+    }
+
+    private int indexOf(int id) {
+        int rsl = -1;
         for (int index = 0; index < size; index++) {
-            Item item = items[index];
-            if (item.getId() == id) {
-                rsl = item;
+            if (items[index].getId() == id) {
+                rsl = index;
                 break;
             }
         }
         return rsl;
+    }
+
+    public Item add(Item item) {
+        item.setId(ids++);
+        items[size++] = item;
+        return item;
+    }
+
+    public boolean replace(int id, Item item) {
+        if (indexOf(id) > -1) {
+            items[indexOf(id)].setName(item.getName());
+            return true;
+        } else {
+            return false;
+        }
     }
 }
