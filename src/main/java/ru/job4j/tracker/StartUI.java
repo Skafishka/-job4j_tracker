@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class StartUI extends Item {
 
     public StartUI(LocalDateTime created) {
-        super(created);
+        super(String.valueOf(created));
     }
 
     public static void main(String[] args) {
