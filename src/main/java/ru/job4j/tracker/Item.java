@@ -41,18 +41,20 @@ public class Item {
         return created;
     }
 
+    public void setCreated(LocalDateTime created) {
+        created.format(FORMATTER);
+        this.created = created;
+    }
+
     @Override
     public String toString() {
         return "Item{"
                 + "id="
                 + id
                 + ", name='"
-                + name
-                + '\''
+                + name + '\''
                 + ", created="
-                + created
-                + ", FORMATTER="
-                + FORMATTER
+                + created.format(FORMATTER)
                 + '}';
     }
 }
