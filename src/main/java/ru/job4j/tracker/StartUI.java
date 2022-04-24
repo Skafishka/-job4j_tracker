@@ -81,6 +81,5 @@ public class StartUI {
         Tracker tracker = new Tracker();
 
         new StartUI().init(scanner, tracker);
-
     }
 }
