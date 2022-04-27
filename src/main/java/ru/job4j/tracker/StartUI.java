@@ -48,7 +48,7 @@ public class StartUI {
         boolean run = true;
         while (run) {
             this.showMenu();
-            int select = input.askInt("Enter id: ");
+            int select = input.askInt("Select id: ");
             if (select == 0) {
                 StartUI.createItem(input, tracker);
             } else if (select == 1) {
