@@ -7,39 +7,62 @@ import static org.hamcrest.core.Is.is;
 public class StartUITest {
 
     @Test
-    public void createItem() {
-        String[] answers = {"Fix PC"};
-        Input input = new StubInput(answers);
+    public void whenCreateItem() {
+        Input in = new StubInput(
+                new String[] {"0", "Item name", "1"}
+        );
         Tracker tracker = new Tracker();
-        StartUI.createItem(input, tracker);
-        Item created = tracker.findAll()[0];
-        Item expected = new Item("Fix PC");
-        assertThat(created.getName(), is(expected.getName()));
+        UserAction[] actions = {
+                new CreateAction(),
+                new ExitProgramAction()
+        };
+        new StartUI().init(in, tracker, actions);
+        assertThat(tracker.findAll()[0].getName(), is("Item name"));
     }
 
     @Test
-    public void editItem() {
+    public void whenShowAllAction() {
+        Input in = new StubInput(
+                new String[] {"0", "Item name", "1", "2"}
+        );
         Tracker tracker = new Tracker();
-        Item item = new Item("new item");
-        tracker.add(item);
-        String[] answers = {
-                String.valueOf(item.getId()), "edited item"
+        UserAction[] actions = {
+                new CreateAction(),
+                new ShowAllAction(),
+                new ExitProgramAction()
         };
-        StartUI.editItem(new StubInput(answers), tracker);
-        Item edited = tracker.findById(item.getId());
-        assertThat(edited.getName(), is("edited item"));
+        new StartUI().init(in, tracker, actions);
+        assertThat(tracker.findAll()[0].getName(), is("Item name"));
     }
 
     @Test
-    public void deleteItem() {
+    public void whenEditAction() {
+        Input in = new StubInput(
+                new String[] {"0", "Item name", "1", "2", "1", "Test ongoing", "3"}
+        );
         Tracker tracker = new Tracker();
-        Item item = new Item("new item");
-        tracker.add(item);
-        String[] answers = {
-                String.valueOf(item.getId())
+        UserAction[] actions = {
+                new CreateAction(),
+                new ShowAllAction(),
+                new EditAction(),
+                new ExitProgramAction()
         };
-        StartUI.deleteItem(new StubInput(answers), tracker);
-        Item edited = tracker.findById(item.getId());
-        assertNull(edited);
+        new StartUI().init(in, tracker, actions);
+        assertThat(tracker.findAll()[0].getName(), is("Test ongoing"));
+    }
+
+    @Test
+    public void whenDeleteAction() {
+        Input in = new StubInput(
+                new String[] {"0", "Item name", "1", "1", "2"}
+        );
+        Tracker tracker = new Tracker();
+        UserAction[] actions = {
+                new CreateAction(),
+                new DeleteAction(),
+                new ExitProgramAction()
+        };
+        new StartUI().init(in, tracker, actions);
+        assertNull(tracker.findById(1));
     }
 }
