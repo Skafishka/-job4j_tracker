@@ -9,6 +9,81 @@ public class StartUITest {
     @Test
     public void whenCreateItem() {
         Output out = new StubOutput();
+        Input in = new StubInput(
+                new String[] {"0", "Item name", "1"}
+        );
+        Tracker tracker = new Tracker();
+        UserAction[] actions = {
+                new CreateAction(out),
+                new ExitProgramAction()
+        };
+        new StartUI(out).init(in, tracker, actions);
+        assertThat(tracker.findAll()[0].getName(), is("Item name"));
+    }
+
+    @Test
+    public void whenShowAllAction() {
+        Output out = new StubOutput();
+        Input in = new StubInput(
+                new String[] {"0", "1"}
+        );
+        Tracker tracker = new Tracker();
+        tracker.add(new Item("Item name"));
+        UserAction[] actions = {
+                new ShowAllAction(out),
+                new ExitProgramAction()
+        };
+        new StartUI(out).init(in, tracker, actions);
+        assertThat(tracker.findAll()[0].getName(), is("Item name"));
+    }
+
+    @Test
+    public void whenEditAction() {
+        Output out = new StubOutput();
+        Tracker tracker = new Tracker();
+        tracker.add(new Item("Item name"));
+        tracker.replace(1, new Item("Test ongoing"));
+        Input in = new StubInput(
+                new String[] {"0", "1", "Test ongoing", "1"}
+        );
+        UserAction[] actions = {
+                new EditAction(out),
+                new ExitProgramAction()
+        };
+        new StartUI(out).init(in, tracker, actions);
+        assertThat(tracker.findAll()[0].getName(), is("Test ongoing"));
+    }
+
+    @Test
+    public void whenDeleteAction() {
+        Output out = new StubOutput();
+        Tracker tracker = new Tracker();
+        tracker.add(new Item("Item name"));
+        tracker.delete(1);
+        Input in = new StubInput(
+                new String[] {"0", "1", "1"}
+        );
+        UserAction[] actions = {
+                new DeleteAction(out),
+                new ExitProgramAction()
+        };
+        new StartUI(out).init(in, tracker, actions);
+        assertNull(tracker.findById(1));
+    }
+}
+
+/*
+package ru.job4j.tracker;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.is;
+
+public class StartUITest {
+
+    @Test
+    public void whenCreateItem() {
+        Output out = new StubOutput();
         Tracker tracker = new Tracker();
         Item one = tracker.add(new Item("test1"));
         Input in = new StubInput(
@@ -151,4 +226,4 @@ public class StartUITest {
                 "Menu:" + System.lineSeparator() + "0. Exit Program" + System.lineSeparator()
         ));
     }
-}
+} */
