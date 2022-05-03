@@ -39,36 +39,35 @@ public class StartUITest {
 
     @Test
     public void whenEditAction() {
-        Output out = new StubOutput();
         Tracker tracker = new Tracker();
-        tracker.add(new Item("Item name"));
-        tracker.replace(1, new Item("Test ongoing"));
+        Item item = tracker.add(new Item("Item name"));
+        Output out = new StubOutput();
+        String replacedName = "New item name";
         Input in = new StubInput(
-                new String[] {"0", "1", "Test ongoing", "1"}
+                new String[] {"0", String.valueOf(item.getId()), replacedName, "1"}
         );
         UserAction[] actions = {
                 new EditAction(out),
                 new ExitProgramAction()
         };
         new StartUI(out).init(in, tracker, actions);
-        assertThat(tracker.findAll()[0].getName(), is("Test ongoing"));
+        assertThat(tracker.findAll()[0].getName(), is(replacedName));
     }
 
     @Test
     public void whenDeleteAction() {
-        Output out = new StubOutput();
         Tracker tracker = new Tracker();
-        tracker.add(new Item("Item name"));
-        tracker.delete(1);
+        Item item = tracker.add(new Item("Deleted item"));
+        Output out = new StubOutput();
         Input in = new StubInput(
-                new String[] {"0", "1", "1"}
+                new String[] {"0", String.valueOf(item.getId()), "1"}
         );
         UserAction[] actions = {
                 new DeleteAction(out),
                 new ExitProgramAction()
         };
         new StartUI(out).init(in, tracker, actions);
-        assertNull(tracker.findById(1));
+        assertNull(tracker.findById(0));
     }
 }
 
