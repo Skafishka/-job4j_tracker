@@ -67,7 +67,7 @@ public class StartUITest {
                 new ExitProgramAction()
         };
         new StartUI(out).init(in, tracker, actions);
-        assertNull(tracker.findById(0));
+        assertNull(tracker.findById(item.getId()));
     }
 
     @Test
