@@ -28,4 +28,5 @@ public class ValidateInput implements Input {
     public String askStr(String question) {
         return in.askStr(question);
     }
+
 }
