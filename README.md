@@ -2,16 +2,16 @@
 
 ## О проекте
 
-Этот проект - консольное приложение. Пользователю отображается меню с возможностями программы.
+This project is a console application. The user is shown a menu with program features.
 
-Программа может:
+The program can:
 
-1. Добавлять заявку.
+1. Add an application.
 
-1. Заменять заявку на новую заявку по ID.
+1. Replace the application with a new application
 
-1. Удалять заявку по ID.
+1. Delete an application by ID.
 
-1. Отображать список всех заявок.
+1. Display a list of all requests.
 
-1. Производить поиск по имени заявки.
+1. Search by application name.
