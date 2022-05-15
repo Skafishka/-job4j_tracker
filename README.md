@@ -1,6 +1,6 @@
 # job4j_tracker
 
-## О проекте
+## About project
 
 This project is a console application. The user is shown a menu with program features.
 
