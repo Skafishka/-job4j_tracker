@@ -22,6 +22,6 @@ public class PassportOfficeTest {
         PassportOffice office = new PassportOffice();
         office.add(citizen);
         office.add(citizen1);
-        assertFalse(office.get(citizen.getPassport()).equals(citizen1.getUsername()));
+        assertFalse(office.add(citizen1));
     }
 }
