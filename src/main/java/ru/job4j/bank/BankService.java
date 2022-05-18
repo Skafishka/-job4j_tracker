@@ -18,7 +18,6 @@ public class BankService {
             List<Account> userAccount = user.get(newFound);
             if (!userAccount.contains(account)) {
                 user.get(newFound).add(account);
-
             }
         }
     }
@@ -28,7 +27,6 @@ public class BankService {
             if (names.getPassport().equals(passport)) {
                 return names;
             }
-        break;
         }
         return null;
     }
@@ -43,7 +41,7 @@ public class BankService {
                 return account;
             }
         }
-        return new Account(requisite, 0);
+        return null;
     }
 
     public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount) {
