@@ -24,4 +24,5 @@ public class PassportOfficeTest {
         office.add(citizen1);
         assertFalse(office.add(citizen1));
     }
+
 }
