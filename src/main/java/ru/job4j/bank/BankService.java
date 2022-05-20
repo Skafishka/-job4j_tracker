@@ -35,7 +35,7 @@ public class BankService {
         User userFound = findByPassport(passport);
         if (userFound != null) {
             for (Account account : user.get(userFound)) {
-                if (account.getRequisite().contains(requisite)) {
+                if (account.getRequisite().equals(requisite)) {
                     return account;
                 }
             }
