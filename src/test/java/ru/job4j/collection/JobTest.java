@@ -64,6 +64,5 @@ public class JobTest {
                 new Job("Joo-joo", 8)
         );
         assertThat(rsl, lessThan(0));
-
     }
 }
