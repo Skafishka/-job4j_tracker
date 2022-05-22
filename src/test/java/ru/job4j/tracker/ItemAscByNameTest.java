@@ -11,9 +11,10 @@ public class ItemAscByNameTest {
 
     @Test
     public void whenItemAscByName() {
-        List<Item> items = Arrays.asList(new Item("aaa"), new Item("zzz"), new Item("bbb"));
+        List<Item> items = Arrays.asList(new Item("aaa"), new Item("zzz"), new Item("bbb"), new Item("eee"));
+        List<Item> expected = Arrays.asList(items.get(0), items.get(2), items.get(3), items.get(1));
         Collections.sort(items, new ItemAscByName());
-        assertThat(items.get(1).getName(), is("bbb"));
+        assertThat(items, is(expected));
     }
 
 }

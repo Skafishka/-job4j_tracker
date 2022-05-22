@@ -13,9 +13,10 @@ public class ItemDescByNameTest {
 
     @Test
     public void whenItemDescByName() {
-        List<Item> items = Arrays.asList(new Item("aaa"), new Item("zzz"), new Item("bbb"));
+        List<Item> items = Arrays.asList(new Item("aaa"), new Item("zzz"), new Item("bbb"), new Item("hhh"));
+        List<Item> expected = Arrays.asList(items.get(1), items.get(3), items.get(2), items.get(0));
         Collections.sort(items, new ItemDescByName());
-        assertThat(items.get(0).getName(), is("zzz"));
+        assertThat(items, is(expected));
     }
 
 }
