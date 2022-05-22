@@ -5,13 +5,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Класс описывает работу банковского сервиса по переводу средств
+ * с одного счёта на другой
+ * @author Sergei Kolygin
+ * @version 1.0
+ */
 public class BankService {
+    /**
+     * хранение информации о пользователе и перечня его счётов
+     * осуществляется в коллекции тира HashMap
+     */
     private final Map<User, List<Account>> user = new HashMap<>();
 
+    /**
+     * Метод принимает на вход заявку user и добавляет её в перечень клиентов банка
+     * в случае нового клиента.
+     * @param user клиент, который добавляется в перечень клиентов, в случае если это
+     *             новый клиент.
+     */
     public void addUser(User user) {
         this.user.putIfAbsent(user, new ArrayList<>());
     }
 
+    /**
+     *
+     * @param passport
+     * @param account
+     */
     public void addAccount(String passport, Account account) {
         User newFound = this.findByPassport(passport);
         if (newFound != null) {
@@ -22,6 +43,11 @@ public class BankService {
         }
     }
 
+    /**
+     *
+     * @param passport
+     * @return
+     */
     public User findByPassport(String passport) {
         for (User names : user.keySet()) {
             if (names.getPassport().equals(passport)) {
@@ -31,6 +57,12 @@ public class BankService {
         return null;
     }
 
+    /**
+     *
+     * @param passport
+     * @param requisite
+     * @return
+     */
     public Account findByRequisite(String passport, String requisite) {
         User userFound = findByPassport(passport);
         if (userFound != null) {
@@ -43,6 +75,15 @@ public class BankService {
         return null;
     }
 
+    /**
+     *
+     * @param srcPassport
+     * @param srcRequisite
+     * @param destPassport
+     * @param destRequisite
+     * @param amount
+     * @return
+     */
     public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount) {
         Account srcUser = findByRequisite(srcPassport, srcRequisite);
         Account destUser = findByRequisite(destPassport, destRequisite);
