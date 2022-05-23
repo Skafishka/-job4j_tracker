@@ -21,7 +21,7 @@ public class BankService {
     /**
      * Метод принимает на вход заявку user и добавляет её в перечень клиентов банка
      * в случае нового клиента.
-     * @param user клиент, который добавляется в перечень клиентов, в случае если это
+     * @param user это клиент, который добавляется в перечень клиентов, в случае если это
      *             новый клиент.
      */
     public void addUser(User user) {
@@ -29,9 +29,11 @@ public class BankService {
     }
 
     /**
-     *
-     * @param passport
-     * @param account
+     * Метод принимает на вход заявку на добавление аккаунта в случае если user найден
+     * по номеру паспорта и у него не существует данного номера аккаунта
+     * @param passport это номер паспорта, по которому происходит поиск user
+     * @param account это номер аккаунта, по которому происходит проверка
+     *                наличие/отсутствие аккаунта у user
      */
     public void addAccount(String passport, Account account) {
         User newFound = this.findByPassport(passport);
@@ -44,9 +46,10 @@ public class BankService {
     }
 
     /**
-     *
-     * @param passport
-     * @return
+     * Метод принимает на вход значение passport и производит поиск по списку паспортов с
+     * выводом значения user
+     * @param passport это значение используется для поиска паспорта в списке user
+     * @return используется для вывода результата поиска
      */
     public User findByPassport(String passport) {
         for (User names : user.keySet()) {
@@ -58,10 +61,12 @@ public class BankService {
     }
 
     /**
-     *
-     * @param passport
-     * @param requisite
-     * @return
+     * Метод принимает на вход значение passport для поиска user и после принимает значение
+     * requisite для поиска среди списка account у user соответствующего номера аккаунта по
+     * реквизитам
+     * @param passport этот параметр используется для поиска соответствующего user
+     * @param requisite этот параметр используется для поиска соответствующего account по реквизитам
+     * @return используется для вывода результата поиска account
      */
     public Account findByRequisite(String passport, String requisite) {
         User userFound = findByPassport(passport);
@@ -76,13 +81,17 @@ public class BankService {
     }
 
     /**
-     *
-     * @param srcPassport
-     * @param srcRequisite
-     * @param destPassport
-     * @param destRequisite
-     * @param amount
-     * @return
+     * Метод принимает на вход номера паспортов и реквизитов аккаунта и осуществляет перевод денег с
+     * одного аккаунта на другой.
+     * Поиск отправителя и получателя производится по номеру паспорта и реквизитам счёта.
+     * В случае успешного нахождения отправителя и получателя и наличия достаточного баланса
+     * денег у отправителя, производится перевод.
+     * @param srcPassport номер паспорта отправителя
+     * @param srcRequisite номер реквизитов отправителя
+     * @param destPassport номер паспорта получателя
+     * @param destRequisite номер реквизитов получателя
+     * @param amount сумма к переводу денег
+     * @return возврат подтверждения перевода
      */
     public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount) {
         Account srcUser = findByRequisite(srcPassport, srcRequisite);
