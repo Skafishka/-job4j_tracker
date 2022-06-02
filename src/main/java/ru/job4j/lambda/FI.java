@@ -1,6 +1,7 @@
 package ru.job4j.lambda;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 
 public class FI {
@@ -8,23 +9,17 @@ public class FI {
         Attachment[] atts = {
                 new Attachment("image 1", 20),
                 new Attachment("image 3", 120),
-                new Attachment("image 2", 23)
+                new Attachment("image 6", 23)
         };
         Comparator<Attachment> comparator = (left, right) -> Integer.compare(left.getSize(), right.getSize());
-        Arrays.sort(atts, comparator);
-        for (Attachment s : atts) {
-            System.out.println(s);
-        }
-
-        Comparator<String> cmpText = (left, right) -> {
-            left = atts.getName();
-            right = atts.getName();
-            left.compareTo(right);
-        };
-
+        /**
+         * Компаратор cmpText сравнивает имена из Attachments по возрастанию
+         */
+        Comparator<Attachment> cmpText = (left, right) -> left.getName().compareTo(right.getName());
+        /**
+         * Компаратор cmpDescSize сравнивает длины строк по убыванию
+         */
         Comparator<String> cmpDescSize = (left, right) -> Integer.compare(right.length(), left.length());
-        Arrays.sort(atts, cmpDescSize);
 
     }
-
 }
