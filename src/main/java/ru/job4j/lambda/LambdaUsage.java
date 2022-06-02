@@ -17,4 +17,5 @@ public class LambdaUsage {
             System.out.println(str);
         }
     }
+
 }
