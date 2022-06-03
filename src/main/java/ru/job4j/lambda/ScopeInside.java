@@ -6,9 +6,9 @@ public class ScopeInside {
     public static void main(String[] args) {
         int[] number = {1, 2, 3};
         int total = 0;
-        for (int i = 0; i < number.length; i++) {
+        for (int i : number) {
             int total1 = total;
-            int num = number[i];
+            int num = i;
             total = add(
                     () -> total1 + num
             );
