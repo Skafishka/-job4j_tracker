@@ -15,7 +15,7 @@ public class FI {
         /**
          * Компаратор cmpText сравнивает имена из Attachments по возрастанию
          */
-        Comparator<Attachment> cmpText = (left, right) -> left.getName().compareTo(right.getName());
+        Comparator<String> cmpText = (left, right) -> left.compareTo(right);
         /**
          * Компаратор cmpDescSize сравнивает длины строк по убыванию
          */
