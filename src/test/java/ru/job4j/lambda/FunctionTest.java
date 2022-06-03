@@ -27,8 +27,8 @@ public class FunctionTest {
     @Test
     public void whenShowFunctionThenShowResulst() {
         Function function = new Function();
-        List<Double> result = function.diapason(5, 8, (x) -> 3 * x);
-        List<Double> expected = Arrays.asList(25D, 36D, 49D);
+        List<Double> result = function.diapason(5, 8, x -> 3 * x);
+        List<Double> expected = Arrays.asList(15D, 18D, 21D);
         assertThat(result, is(expected));
     }
 
