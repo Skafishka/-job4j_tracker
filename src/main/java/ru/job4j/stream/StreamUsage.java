@@ -15,10 +15,12 @@ public class StreamUsage {
 
         @Override
         public String toString() {
-            return "Task{" +
-                    "name='" + name + '\'' +
-                    ", spent=" + spent +
-                    '}';
+            return "Task{"
+                    + "name='"
+                    + name + '\''
+                    + ", spent="
+                    + spent
+                    + '}';
         }
     }
 
@@ -30,7 +32,21 @@ public class StreamUsage {
         );
         List<Task> bugs = tasks.stream().filter(
                 task -> task.name.contains("Bug")
-        ).collect(Collectors.toList());
+        ).toList();
         bugs.forEach(System.out::println);
+
+        List<String> names = tasks.stream().map(
+                task -> task.name
+        ).toList();
+        names.forEach(System.out::println);
+
+        long total = tasks.stream().map(
+                task -> task.spent
+        ).reduce(0L, Long::sum);
+        System.out.println("total = " + total);
+
+        List<Task> bugs1 = tasks.stream().filter(
+                task -> task.name.contains("Bug")
+        ).toList();
     }
 }
