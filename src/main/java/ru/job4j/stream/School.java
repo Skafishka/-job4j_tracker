@@ -4,7 +4,8 @@ import java.util.function.Predicate;
 import java.util.List;
 
 public class School {
-    public static boolean collect(List<Student> students, Predicate<List<Student>> predic) {
-        return predic.test(students);
-    }
+    public static List<Student> collect(List<Student> students, Predicate<Student> predic) {
+        predic.test(students);
+        return students;
+    };
 }
