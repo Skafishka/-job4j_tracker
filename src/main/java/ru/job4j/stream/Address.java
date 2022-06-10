@@ -3,7 +3,7 @@ package ru.job4j.stream;
 import java.util.Objects;
 
 public class Address {
-    private String city;
+    public String city;
 
     private String street;
 

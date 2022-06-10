@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 public class Profiles {
 
     public static List<Address> collect(List<Profile> profiles) {
-        ArrayList<Address> results = results.stream()
-                .map(task -> task.city)
+        return profiles.stream()
+                .map(Profile::getAddress)
                 .collect(Collectors.toList());
-        return results;
+
     }
 }
