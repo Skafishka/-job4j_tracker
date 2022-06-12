@@ -17,7 +17,6 @@ public class BankService {
      * осуществляется в коллекции тира HashMap
      */
     private final Map<User, List<Account>> user = new HashMap<>();
-
     /**
      * Метод принимает на вход заявку user и добавляет её в перечень клиентов банка
      * в случае нового клиента.
@@ -27,7 +26,6 @@ public class BankService {
     public void addUser(User user) {
         this.user.putIfAbsent(user, new ArrayList<>());
     }
-
     /**
      * Метод принимает на вход заявку на добавление аккаунта в случае если user найден
      * по номеру паспорта и у него не существует данного номера аккаунта
@@ -44,7 +42,6 @@ public class BankService {
             }
         }
     }
-
     /**
      * Метод принимает на вход значение passport и производит поиск по списку паспортов с
      * выводом значения user
@@ -52,14 +49,12 @@ public class BankService {
      * @return используется для вывода результата поиска
      */
     public User findByPassport(String passport) {
-        for (User names : user.keySet()) {
-            if (names.getPassport().equals(passport)) {
-                return names;
-            }
-        }
-        return null;
+        return user.keySet()
+                .stream()
+                .filter(q -> q.getPassport().equals(passport))
+                .findFirst()
+                .orElse(null);
     }
-
     /**
      * Метод принимает на вход значение passport для поиска user и после принимает значение
      * requisite для поиска среди списка account у user соответствующего номера аккаунта по
@@ -71,13 +66,15 @@ public class BankService {
     public Account findByRequisite(String passport, String requisite) {
         User userFound = findByPassport(passport);
         if (userFound != null) {
-            for (Account account : user.get(userFound)) {
+            return
+        }
+            /**    for (Account account : user.get(userFound)) {
                 if (account.getRequisite().equals(requisite)) {
                     return account;
                 }
             }
         }
-        return null;
+        return null; */
     }
 
     /**
