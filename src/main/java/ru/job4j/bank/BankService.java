@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Класс описывает работу банковского сервиса по переводу средств
@@ -23,6 +24,7 @@ public class BankService {
      * @param user это клиент, который добавляется в перечень клиентов, в случае если это
      *             новый клиент.
      */
+
     public void addUser(User user) {
         this.user.putIfAbsent(user, new ArrayList<>());
     }
@@ -33,6 +35,7 @@ public class BankService {
      * @param account это номер аккаунта, по которому происходит проверка
      *                наличие/отсутствие аккаунта у user
      */
+
     public void addAccount(String passport, Account account) {
         User newFound = this.findByPassport(passport);
         if (newFound != null) {
@@ -48,6 +51,7 @@ public class BankService {
      * @param passport это значение используется для поиска паспорта в списке user
      * @return используется для вывода результата поиска
      */
+
     public User findByPassport(String passport) {
         return user.keySet()
                 .stream()
@@ -63,18 +67,17 @@ public class BankService {
      * @param requisite этот параметр используется для поиска соответствующего account по реквизитам
      * @return используется для вывода результата поиска account
      */
+
     public Account findByRequisite(String passport, String requisite) {
         User userFound = findByPassport(passport);
         if (userFound != null) {
-            return
+            return user.get(userFound)
+                    .stream()
+                    .filter(q -> q.getRequisite().equals(requisite))
+                    .findFirst()
+                    .orElse(null);
         }
-            /**    for (Account account : user.get(userFound)) {
-                if (account.getRequisite().equals(requisite)) {
-                    return account;
-                }
-            }
-        }
-        return null; */
+        return null;
     }
 
     /**
