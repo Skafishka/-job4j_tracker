@@ -56,6 +56,10 @@ public class Car {
         }
     }
 
+    public String toString() {
+        return "brand: " + this.brand + ", model: " + this.model + ", created: " + this.created + ", engine volume: " + this.volume + ", color: " + this.color;
+    }
+
     public static void main(String[] args) {
         Car car = new Builder()
                 .buildBrand("Toyota")
@@ -65,5 +69,12 @@ public class Car {
                 .buildColor("Red")
                 .build();
         System.out.println(car);
+
+        Car newCar = new Builder()
+                .buildBrand("VW")
+                .buildModel("Touran")
+                .buildCreated(LocalDate.ofYearDay(2016, 23))
+                .build();
+        System.out.println(newCar);
     }
 }
