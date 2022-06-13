@@ -12,7 +12,7 @@ public class ListToMap {
          return list.stream().
                  collect(Collectors.toMap(
                          Student::getSurname,
-                         Student -> Student,
+                         Function.identity(),
                          (v1, v2) -> v1));
     }
 }
