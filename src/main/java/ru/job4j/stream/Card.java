@@ -11,6 +11,11 @@ public class Card {
         this.value = value;
     }
 
+    @Override
+    public String toString() {
+        return this.suit + ": " + this.value;
+    }
+
     public static void main(String[] args) {
         Stream.of(Suit.values())
                 .flatMap(values -> Stream.of(Value.values()).map(task -> new Card(values, task)))
