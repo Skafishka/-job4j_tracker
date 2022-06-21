@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 /**
  * Класс описывает работу банковского сервиса по переводу средств
@@ -53,11 +53,15 @@ public class BankService {
      */
 
     public User findByPassport(String passport) {
-        return user.keySet()
+        Optional<User> rsl = user.keySet()
                 .stream()
                 .filter(q -> q.getPassport().equals(passport))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
+        if (rsl.isPresent()) {
+            return rsl.get();
+        } else {
+            return null;
+        }
     }
     /**
      * Метод принимает на вход значение passport для поиска user и после принимает значение
@@ -71,11 +75,15 @@ public class BankService {
     public Account findByRequisite(String passport, String requisite) {
         User userFound = findByPassport(passport);
         if (userFound != null) {
-            return user.get(userFound)
+            Optional<Account> rsl = user.get(userFound)
                     .stream()
                     .filter(q -> q.getRequisite().equals(requisite))
-                    .findFirst()
-                    .orElse(null);
+                    .findFirst();
+            if (rsl.isPresent()) {
+                return rsl.get();
+            } else {
+                return null;
+            }
         }
         return null;
     }
