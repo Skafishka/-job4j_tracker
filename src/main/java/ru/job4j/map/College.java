@@ -3,6 +3,7 @@ package ru.job4j.map;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.List;
 
 public class College {
     private final Map<Student, Set<Subject>> students;
@@ -23,13 +24,12 @@ public class College {
     }
 
     public Optional findBySubjectName(String account, String name) {
-        Optional<Subject> rsl = Optional.empty();
+        Optional<Integer> rsl = Optional.empty();
         Optional<Student> s = findByAccount(account);
         if (s.isPresent()) {
-            Set<Subject> subjects = students.get(s);
-            for (Subject subj : subjects) {
+            for (Subject subj : (List<Subject>) s.get()) {
                 if (name.equals(subj.getName())) {
-                    rsl = Optional.of(subj);
+                    rsl = Optional.of(subj.getScore());
                     break;
                 }
             }
