@@ -21,4 +21,5 @@ public class Card {
                 .flatMap(values -> Stream.of(Value.values()).map(task -> new Card(values, task)))
                 .forEach(System.out::println);
     }
+
 }
