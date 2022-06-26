@@ -23,13 +23,14 @@ public class College {
         return rsl;
     }
 
-    public Optional findBySubjectName(String account, String name) {
-        Optional<Integer> rsl = Optional.empty();
+    public Optional<Subject> findBySubjectName(String account, String name) {
+        Optional<Subject> rsl = Optional.empty();
         Optional<Student> s = findByAccount(account);
         if (s.isPresent()) {
-            for (Subject subj : (List<Subject>) s.get()) {
+            Set<Subject> subjects = students.get(s.get());
+            for (Subject subj : subjects) {
                 if (name.equals(subj.getName())) {
-                    rsl = Optional.of(subj.getScore());
+                    rsl = Optional.of(subj);
                     break;
                 }
             }
