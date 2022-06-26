@@ -56,4 +56,5 @@ public class Analyze {
                 .max(Tuple::compareTo)
                 .orElse(null);
     }
+
 }
