@@ -9,7 +9,7 @@ public class StartUI {
     public void init(Input input, Store tracker, List<UserAction> actions) throws SQLException {
         boolean run = true;
         while (run) {
-            this.showMenu(actions);
+            showMenu(actions);
             int select = input.askInt("Select: ");
             if (select < 0 || select >= actions.size()) {
                 System.out.println(("Wrong input, you can select: 0 .. " + (actions.size() - 1)));

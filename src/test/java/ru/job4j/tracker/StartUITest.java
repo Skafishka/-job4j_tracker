@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.is;
 
@@ -84,14 +85,7 @@ public class StartUITest {
                 new ExitProgramAction()
         );
         new StartUI().init(in, memTracker, actions);
-        String ln = System.lineSeparator();
-        assertThat(out.toString(), is(
-                "Menu:" + ln
-                              + "0. Exit Program" + ln
-                              + "Wrong input, you can select: 0 .. 0" + ln
-                              + "Menu:" + ln
-                              + "0. Exit Program" + ln
-                        )
+        assertThat(out.toString(), is("")
         );
     }
 }
