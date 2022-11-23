@@ -13,15 +13,15 @@ public class EditAction implements UserAction {
     }
 
     @Override
-    public boolean execute(Input input, Tracker tracker) {
+    public boolean execute(Input input, Store tracker) {
         out.println("=== Edit item ===");
         int id = input.askInt("Enter id: ");
         String name = input.askStr("Enter name: ");
         Item item = new Item(name);
         if (tracker.replace(id, item)) {
-            out.println("Заявка изменена успешно!");
+            out.println("Item edited successfully!");
         } else {
-            out.println("Ошибка замены заявки!");
+            out.println("Mistake during item editing!");
         }
         return true;
     }

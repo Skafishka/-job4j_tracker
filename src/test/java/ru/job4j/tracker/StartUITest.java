@@ -3,45 +3,47 @@ package ru.job4j.tracker;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.is;
+
+import java.sql.SQLException;
 import java.util.List;
 
 public class StartUITest {
 
     @Test
-    public void whenCreateItem() {
+    public void whenCreateItem() throws SQLException {
         Output out = new StubOutput();
         Input in = new StubInput(
                 new String[] {"0", "Item name", "1"}
         );
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         List<UserAction> actions = List.of(
                 new CreateAction(out),
                 new ExitProgramAction()
         );
-        new StartUI(out).init(in, tracker, actions);
-        assertThat(tracker.findById(1).getName(), is("Item name"));
+        new StartUI().init(in, memTracker, actions);
+        assertThat(memTracker.findById(1).getName(), is("Item name"));
     }
 
     @Test
-    public void whenShowAllAction() {
+    public void whenShowAllAction() throws SQLException {
         Output out = new StubOutput();
         Input in = new StubInput(
                 new String[] {"0", "1"}
         );
-        Tracker tracker = new Tracker();
-        tracker.add(new Item("Item name"));
+        MemTracker memTracker = new MemTracker();
+        memTracker.add(new Item("Item name"));
         List<UserAction> actions = List.of(
                 new ShowAllAction(out),
                 new ExitProgramAction()
         );
-        new StartUI(out).init(in, tracker, actions);
-        assertThat(tracker.findById(1).getName(), is("Item name"));
+        new StartUI().init(in, memTracker, actions);
+        assertThat(memTracker.findById(1).getName(), is("Item name"));
     }
 
     @Test
-    public void whenEditAction() {
-        Tracker tracker = new Tracker();
-        Item item = tracker.add(new Item("Item name"));
+    public void whenEditAction() throws SQLException {
+        MemTracker memTracker = new MemTracker();
+        Item item = memTracker.add(new Item("Item name"));
         Output out = new StubOutput();
         String replacedName = "New item name";
         Input in = new StubInput(
@@ -51,14 +53,14 @@ public class StartUITest {
                 new EditAction(out),
                 new ExitProgramAction()
         );
-        new StartUI(out).init(in, tracker, actions);
-        assertThat(tracker.findById(1).getName(), is(replacedName));
+        new StartUI().init(in, memTracker, actions);
+        assertThat(memTracker.findById(1).getName(), is(replacedName));
     }
 
     @Test
-    public void whenDeleteAction() {
-        Tracker tracker = new Tracker();
-        Item item = tracker.add(new Item("Deleted item"));
+    public void whenDeleteAction() throws SQLException {
+        MemTracker memTracker = new MemTracker();
+        Item item = memTracker.add(new Item("Deleted item"));
         Output out = new StubOutput();
         Input in = new StubInput(
                 new String[] {"0", String.valueOf(item.getId()), "1"}
@@ -67,21 +69,21 @@ public class StartUITest {
                 new DeleteAction(out),
                 new ExitProgramAction()
         );
-        new StartUI(out).init(in, tracker, actions);
-        assertNull(tracker.findById(item.getId()));
+        new StartUI().init(in, memTracker, actions);
+        assertNull(memTracker.findById(item.getId()));
     }
 
     @Test
-    public void whenInvalidExit() {
+    public void whenInvalidExit() throws SQLException {
         Output out = new StubOutput();
         Input in = new StubInput(
                 new String[] {"7", "0"}
         );
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         List<UserAction> actions = List.of(
                 new ExitProgramAction()
         );
-        new StartUI(out).init(in, tracker, actions);
+        new StartUI().init(in, memTracker, actions);
         String ln = System.lineSeparator();
         assertThat(out.toString(), is(
                 "Menu:" + ln

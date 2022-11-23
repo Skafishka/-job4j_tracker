@@ -5,7 +5,7 @@ import java.util.List;
 public final class SingleTracker {
 
     private static SingleTracker instance = null;
-    private Tracker tracker = new Tracker();
+    private final MemTracker memTracker = new MemTracker();
 
     private SingleTracker() {
     }
@@ -18,19 +18,19 @@ public final class SingleTracker {
     }
 
     public Item add(Item item) {
-        return tracker.add(item);
+        return memTracker.add(item);
     }
 
     public List<Item> findAll()  {
-        return tracker.findAll();
+        return memTracker.findAll();
     }
 
     public List<Item> findByName(String key) {
-        return tracker.findByName(key);
+        return memTracker.findByName(key);
     }
 
     public Item findById(int id) {
-        return tracker.findById(id);
+        return memTracker.findById(id);
     }
 
 }
