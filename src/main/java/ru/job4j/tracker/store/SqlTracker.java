@@ -13,8 +13,8 @@ import org.apache.log4j.Logger;
 
 public class SqlTracker implements Store {
 
-    private Connection cn;
     private static final Logger LOG = LogManager.getLogger(SqlTracker.class.getName());
+    private Connection cn;
 
     public SqlTracker() {
         init();
@@ -94,10 +94,10 @@ public class SqlTracker implements Store {
         return result;
     }
 
-    public Item rslDB(ResultSet resultSet) throws SQLException {
-        return new Item(resultSet.getInt(1),
-                resultSet.getString(2),
-                resultSet.getTimestamp(3));
+    private Item importResultFromDB(ResultSet resultSet) throws SQLException {
+        return new Item(resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getTimestamp("created"));
     }
 
     @Override
@@ -106,7 +106,7 @@ public class SqlTracker implements Store {
         try (PreparedStatement statement = cn.prepareStatement("select * from items;")) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    items.add(rslDB(resultSet));
+                    items.add(importResultFromDB(resultSet));
                 }
             }
         } catch (Exception e) {
@@ -123,7 +123,7 @@ public class SqlTracker implements Store {
             statement.setString(1, key);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    result.add(rslDB(resultSet));
+                    result.add(importResultFromDB(resultSet));
                 }
             }
         } catch (Exception e) {
@@ -140,7 +140,7 @@ public class SqlTracker implements Store {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    item = rslDB(resultSet);
+                    item = importResultFromDB(resultSet);
                 }
             }
         } catch (Exception e) {
