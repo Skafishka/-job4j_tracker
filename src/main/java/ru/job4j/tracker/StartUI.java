@@ -32,8 +32,7 @@ public class StartUI {
                 new ConsoleInput()
         );
         Output output = new ConsoleOutput();
-        try (SqlTracker tracker = new SqlTracker()) {
-            tracker.init();
+        try (Store tracker = new SqlTracker()) {
             List<UserAction> actions = List.of(
                     new CreateAction(output),
                     new ShowAllAction(output),

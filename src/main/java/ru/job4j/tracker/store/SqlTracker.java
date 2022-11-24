@@ -8,10 +8,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
-public class SqlTracker implements Store, AutoCloseable {
+public class SqlTracker implements Store {
 
     private Connection cn;
+    private static final Logger LOG = LogManager.getLogger(SqlTracker.class.getName());
 
     public SqlTracker() {
         init();
@@ -33,7 +36,7 @@ public class SqlTracker implements Store, AutoCloseable {
                     config.getProperty("password")
             );
         } catch (Exception e) {
-            throw new IllegalStateException(e);
+            LOG.error(e);
         }
     }
 
@@ -47,7 +50,8 @@ public class SqlTracker implements Store, AutoCloseable {
     @Override
     public Item add(Item item) {
         try (PreparedStatement statement =
-                cn.prepareStatement("insert into items(name, created) values (?, ?);")) {
+                cn.prepareStatement("insert into items(name, created) values (?, ?);",
+                        Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, item.getName());
             statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
             statement.execute();
@@ -57,7 +61,7 @@ public class SqlTracker implements Store, AutoCloseable {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e);
         }
         return item;
     }
@@ -69,10 +73,10 @@ public class SqlTracker implements Store, AutoCloseable {
                 cn.prepareStatement("update items set name = ?, created = ? where id = ?;")) {
             statement.setString(1, item.getName());
             statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
-            statement.setInt(3, item.getId());
+            statement.setInt(3, id);
             result = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOG.error(e);
         }
         return result;
     }
@@ -85,9 +89,15 @@ public class SqlTracker implements Store, AutoCloseable {
             statement.setInt(1, id);
             result = statement.executeUpdate() > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e);
         }
         return result;
+    }
+
+    public Item rslDB(ResultSet resultSet) throws SQLException {
+        return new Item(resultSet.getInt(1),
+                resultSet.getString(2),
+                resultSet.getTimestamp(3));
     }
 
     @Override
@@ -96,15 +106,11 @@ public class SqlTracker implements Store, AutoCloseable {
         try (PreparedStatement statement = cn.prepareStatement("select * from items;")) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    items.add(new Item(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getTimestamp("created")
-                    ));
+                    items.add(rslDB(resultSet));
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e);
         }
         return items;
     }
@@ -115,37 +121,30 @@ public class SqlTracker implements Store, AutoCloseable {
         try (PreparedStatement statement =
                      cn.prepareStatement("select * from items where name = ?;")) {
             statement.setString(1, key);
-            try (ResultSet resultSet = statement.getResultSet()) {
+            try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    for (Item item : result) {
-                        if (key.equals(item.getName())) {
-                            result.add(new Item(
-                                    resultSet.getInt(1),
-                                    resultSet.getString(2),
-                                    resultSet.getTimestamp(3)));
-                        }
-                    }
+                    result.add(rslDB(resultSet));
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e);
         }
         return result;
     }
 
     @Override
-    public Item findById(int id) throws SQLException {
+    public Item findById(int id) {
         Item item = null;
         try (PreparedStatement statement =
                 cn.prepareStatement("select * from items where id = ?;")) {
             statement.setInt(1, id);
-            try (ResultSet resultSet = statement.getResultSet()) {
-                while (resultSet.next() && id == resultSet.getInt(1)) {
-                    item = new Item(resultSet.getInt(1),
-                            resultSet.getString(2),
-                            resultSet.getTimestamp(3));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    item = rslDB(resultSet);
                 }
             }
+        } catch (Exception e) {
+            LOG.error(e);
         }
         return item;
     }
