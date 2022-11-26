@@ -3,11 +3,13 @@ package ru.job4j.tracker;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 public class Item {
     private int id;
     private String name;
-    private LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime created = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
 
     public Item() {
@@ -50,10 +52,24 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{"
-                + "id=" + id
-                + ", name='" + name + '\''
-                + ", created=" + created.format(FORMATTER)
-                + '}';
+        return String.format("id: %s, name: %s, created: %s",
+                id, name, FORMATTER.format(created));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, created);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Item item  = (Item) o;
+        return id == item.id && Objects.equals(name, item.name) && Objects.equals(created, item.created);
     }
 }
