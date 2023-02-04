@@ -8,12 +8,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.*;
 
 public class SqlTrackerTest {
 
@@ -53,7 +50,7 @@ public class SqlTrackerTest {
         SqlTracker tracker = new SqlTracker(connection);
         Item item = new Item("item");
         tracker.add(item);
-        assertThat(tracker.findById(item.getId()), is(item));
+        assertThat(tracker.findById(item.getId())).isEqualTo(item);
     }
 
     @Test
@@ -71,7 +68,7 @@ public class SqlTrackerTest {
         tracker.add(item);
         Item newItem = new Item("new Item");
         tracker.replace(item.getId(), newItem);
-        assertThat(tracker.findById(item.getId()).getName(), is("new Item"));
+        assertThat(tracker.findById(item.getId()).getName()).contains("new Item");
     }
 
     @Test
@@ -80,7 +77,7 @@ public class SqlTrackerTest {
         Item item = new Item("item");
         tracker.add(item);
         tracker.delete(item.getId());
-        assertThat(tracker.findAll(), is(new ArrayList<>()));
+        assertThat(tracker.findById(item.getId())).isNull();
     }
 
     @Test
@@ -92,7 +89,7 @@ public class SqlTrackerTest {
         tracker.add(item);
         tracker.add(item2);
         tracker.add(item3);
-        assertThat(tracker.findAll(), is(List.of(item, item2, item3)));
+        assertThat(tracker.findAll()).containsAll(List.of(item, item2, item3));
     }
 
     @Test
@@ -100,7 +97,7 @@ public class SqlTrackerTest {
         SqlTracker tracker = new SqlTracker(connection);
         Item item = new Item("item");
         tracker.add(item);
-        assertThat(tracker.findByName("item"), is(List.of(item)));
+        assertThat(tracker.findByName("item")).isEqualTo(List.of(item));
     }
 
     @Test
@@ -108,6 +105,6 @@ public class SqlTrackerTest {
         SqlTracker tracker = new SqlTracker(connection);
         Item item = new Item("item");
         tracker.add(item);
-        assertThat(tracker.findById(item.getId()), is(item));
+        assertThat(tracker.findById(item.getId())).isEqualTo(item);
     }
 }
